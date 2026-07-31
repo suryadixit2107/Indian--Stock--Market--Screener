@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "indiascreen"
+version = "0.2.0"
+description = "Free, open-source NSE/BSE stock screener — technical + fundamental + backtesting + live alerts"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["NSE", "BSE", "stock screener", "India", "trading", "technical analysis", "backtesting"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "yfinance>=0.2.36",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "pytz>=2024.1",
+    "pandas-ta>=0.3.14b",
+    "feedparser>=6.0.11",
+    "scipy>=1.12.0",
+    "streamlit>=1.32.0",
+    "plotly>=5.20.0",
+]
+
+[project.optional-dependencies]
+alerts = ["python-telegram-bot>=21.0"]
+ai     = ["anthropic>=0.25.0"]
+dev    = ["pytest>=8.0.0", "pytest-cov>=5.0.0"]
+all    = ["python-telegram-bot>=21.0", "anthropic>=0.25.0", "pytest>=8.0.0", "pytest-cov>=5.0.0"]
+
+[project.scripts]
+indiascreen = "screener.scanner:cli"
+
+[project.urls]
+Homepage   = "https://github.com/yourusername/indiascreen"
+Repository = "https://github.com/yourusername/indiascreen"
+Issues     = "https://github.com/yourusername/indiascreen/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["screener*", "backtest*", "alerts*", "portfolio*", "ui*"]

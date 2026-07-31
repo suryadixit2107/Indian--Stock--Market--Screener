@@ -1,0 +1,42 @@
+# Core data
+yfinance>=0.2.36
+pandas>=2.0.0
+numpy>=1.24.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+pytz>=2024.1
+
+# Technical indicators
+pandas-ta>=0.3.14b
+
+# NLP / news
+feedparser>=6.0.11
+
+# Portfolio
+scipy>=1.12.0
+
+# UI
+streamlit>=1.32.0
+plotly>=5.20.0
+
+# Alerts
+python-telegram-bot>=21.0
+
+# AI / NL screener
+anthropic>=0.25.0
+
+# Config
+python-dotenv>=1.0.0
+
+# Backend (multi-user API + auth + real-time WebSocket)
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.9
+python-jose[cryptography]>=3.3.0
+bcrypt>=4.1.0
+python-multipart>=0.0.9
+
+# Dev / testing
+pytest>=8.0.0
+pytest-cov>=5.0.0

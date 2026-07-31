@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  dashboard:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8501:8501"
+    env_file:
+      - ../.env
+    volumes:
+      - indiascreen-cache:/root/.indiascreen
+    restart: unless-stopped
+
+  # Multi-user API + real-time quote WebSocket (DRAWBACKS.md: "Single-user
+  # architecture" / "No real-time streaming"). Talks to Postgres below —
+  # set DATABASE_URL in .env to point here instead of the SQLite default.
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    environment:
+      DATABASE_URL: postgresql://indiascreen:indiascreen@postgres:5432/indiascreen
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: indiascreen
+      POSTGRES_PASSWORD: indiascreen
+      POSTGRES_DB: indiascreen
+    volumes:
+      - indiascreen-pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # Opt-in only: run `docker compose --profile bot up bot` to enable.
+  # Not started by default — see compliance/DISCLAIMER.md before running
+  # this against a broadcast/subscriber list.
+  bot:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: ["python", "-m", "alerts.telegram_bot", "--test"]
+    env_file:
+      - ../.env
+    volumes:
+      - indiascreen-cache:/root/.indiascreen
+    profiles: ["bot"]
+    restart: "no"
+
+volumes:
+  indiascreen-cache:
+  indiascreen-pgdata:
