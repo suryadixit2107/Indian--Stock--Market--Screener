@@ -232,7 +232,7 @@ class BacktestEngine:
         equity_history = []
 
         # Pre-compute indicators for each symbol
-        from ..screener.technicals import compute_all
+        from screener.technicals import compute_all
         indicators = {}
         for sym, df in self.data.items():
             if len(df) >= 30:
@@ -348,7 +348,7 @@ class BacktestEngine:
         if not self.index_name or not all_dates:
             return None
         try:
-            from ..screener.index_history import IndexHistory
+            from screener.index_history import IndexHistory
             ih = IndexHistory()
             start_date = min(d.date() if hasattr(d, "date") else d for d in all_dates)
             result = ih.constituents_asof(self.index_name, start_date)
